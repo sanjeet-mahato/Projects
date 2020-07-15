@@ -1,1 +1,1 @@
-# Projects
+Contains projects created by author Sanjeet Mahato
