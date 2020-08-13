@@ -1,4 +1,4 @@
-import java.io.*;
+import java.io.*; 
 public class Rubiks_cube
 {
     char a[][][][]=new char[3][3][3][6];
