@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import java.io.*; 
+=======
+import java.io.*;
+>>>>>>> f2bf69d... Signed Commit
 public class Rubiks_cube
 {
     char a[][][][]=new char[3][3][3][6];
