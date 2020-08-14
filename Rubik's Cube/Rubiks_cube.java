@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import java.io.*; 
-=======
 import java.io.*;
->>>>>>> f2bf69d... Signed Commit
 public class Rubiks_cube
 {
     char a[][][][]=new char[3][3][3][6];
@@ -875,6 +871,35 @@ public class Rubiks_cube
         return p;
     }
     
+    public void spin(int k)
+    {
+        if(k==6)
+        {
+            String temp=ins[1];
+            ins[1]=ins[0];
+            ins[0]=ins[5];
+            ins[5]=ins[4];
+            ins[4]=temp;
+        }
+        else if(k==7)
+        {
+            String temp=ins[0];
+            ins[0]=ins[3];
+            ins[3]=ins[4];
+            ins[4]=ins[2];
+            ins[2]=temp;
+        }
+        else if(k==8)
+        {
+            String temp=ins[1];
+            ins[1]=ins[2];
+            ins[2]=ins[5];
+            ins[5]=ins[3];
+            ins[3]=temp;
+        }
+    }
+    
+    
     public void instruction()
     {
         int n=1;
@@ -883,19 +908,37 @@ public class Rubiks_cube
             for(int j=0;j<move[i].length();j++)
             {
                 char ch=move[i].charAt(j);
-                System.out.print(n+": ");
-                n++;
+                
                 for(int k=0;k<9;k++)
                 {
+                    
                     if(ch==instruct[k] || ch==(Character.toUpperCase(instruct[k])))
                     {
+                        if(k<=5)
+                        {
+                            if((n-1)%5==0)
+                                System.out.println();
+                        
+                            System.out.print(n+": ");
+                            n++;
+                        }
                         if(k>5)
-                        System.out.print("..........................................");
+                        {
+                            spin(k);
+                            if(Character.isLowerCase(ch))
+                            {
+                                spin(k);
+                                spin(k);
+                            }
+                        }
+                        else
+                        {
                         System.out.print(ins[k]+" Face ");
                         if(Character.isUpperCase(ch))
                         System.out.println("                  Clockwise");
                         else if(Character.isLowerCase(ch))
                         System.out.println("   Anticlockwise   ");
+                        }
                         break;
                     }
                 }
