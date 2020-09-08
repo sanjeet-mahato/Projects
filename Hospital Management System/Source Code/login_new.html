@@ -1,0 +1,68 @@
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="login_style.css">
+        <title>
+           WELCOME TO LOGIN
+        </title>
+     <script type="text/Javascript">
+    function selection()
+        {
+            var e=document.getElementById("ustp");
+            var sr=e.options[e.selectedIndex].value;
+            var namel=document.getElementById("nameid").value;
+            var passl=document.getElementById("passid").value;
+            
+        if(sr!=0 && namel.length>0 && passl.length>0)
+                {
+                    var ch2=document.getElementById("s");
+                    ch2.disabled=false;
+                }
+            else
+                {
+                    var ch2=document.getElementById("s");
+                    ch2.disabled=true;
+                }
+                 
+        }
+           
+    </script>
+    
+</head>
+<body background="front_view.png" style="width:100%">
+    <form action =login.php method = "post">
+   <div id="head" style="float:left">
+            <h1 id="ha">HOSPITAL MANAGEMENT SYSTEM</h1>
+            
+        </div>
+        
+        <div id="lefter" style="float:left">    </div>
+        
+        <div id="left"  style="float:left">
+            <br/><br/><br/><br/><br/>
+               <div  class="box" style="width:200px;float:left;">
+ <select name = "user_type" id="ustp" onchange="selection()">
+    <option value="0">Account Type</option>
+    <option value="1">Administrator</option>
+    <option value="2">Doctor</option>
+    <option value="3">Patient</option>
+    <option value="4">Nurse</option>
+    <option value="5">Pharmacist</option>
+    <option value="6">Laboratorist</option>
+    <option value="7">Accountant</option>
+     
+  </select>
+            </div>
+            <br/><br/><br/>
+                
+            <font size="6" style="color:darkblue">USER ID</font><br/><br/>
+                <input type = "text" name = "user_id" id="nameid" onmouseout="selection()">
+                <br/><br/><br/><br/>
+                <font size="6" style="color:darkblue">Password</font><br/><br/><input type = "password" name = "pass" id="passid" onmouseout="selection()"><br/><br/><br/>
+                <input type = "submit" name = "logged" value = "LOGIN" id="s" disabled="true"><br/><br/>
+        
+        </div>
+        
+        
+    </form>     
+</body>
+</html>
