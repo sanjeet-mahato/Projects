@@ -1348,4 +1348,5 @@ public class Board
 		return min;// the best next move for the team black/white calling this method   
     
 }
+}
 
