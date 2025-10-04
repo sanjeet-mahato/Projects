@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Verify Email - Finance Insights</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+  <script src="{{ url_for('static', filename='js/auth.js') }}" defer></script>
+</head>
+<body>
+  <div class="verify-box">
+    <h2>Email Verification</h2>
+
+    {% if error %}
+      <div class="message error">{{ error }}</div>
+    {% endif %}
+
+    {% if success %}
+      <div class="message success">{{ success }}</div>
+      <a href="{{ redirect_to }}">Go to Login</a>
+    {% else %}
+      <form method="POST">
+        <input type="text" name="otp" placeholder="Enter 6-digit OTP" required>
+        <button type="submit">Verify</button>
+      </form>
+      <div class="countdown">
+        OTP will expire in <span id="timer">05:00</span>
+      </div>
+      <button class="resend-btn" type="button" id="resendOtpBtn">Resend OTP</button>
+    {% endif %}
+  </div>
+</body>
+</html>

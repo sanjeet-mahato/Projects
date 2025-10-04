@@ -1,0 +1,18 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+<script src="{{ url_for('static', filename='js/auth.js') }}" defer></script>
+
+<div class="auth-card">
+  <h2>Login</h2>
+  {% if error %}<p class="error-msg">{{ error }}</p>{% endif %}
+  <form method="POST">
+    <div class="input-wrapper">
+      <input id="username_or_email" name="username_or_email" placeholder="Username or Email" required>
+    </div>
+    <div class="input-wrapper">
+      <input id="password" name="password" type="password" placeholder="Password" required>
+      <span class="toggle-password">Show</span>
+    </div>
+    <button type="submit">Login</button>
+  </form>
+  <a href="{{ url_for('auth.signup') }}">Don't have an account? Sign Up</a>
+</div>

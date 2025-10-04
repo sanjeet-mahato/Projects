@@ -1,0 +1,6 @@
+{
+  "user": "finance_user",
+  "password": "finance_pass",
+  "host": "localhost",
+  "database": "finance_insights_db"
+}
