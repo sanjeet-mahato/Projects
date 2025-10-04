@@ -1,9 +1,18 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
 <script src="{{ url_for('static', filename='js/auth.js') }}" defer></script>
+
 <div class="auth-card">
   <h2>Sign Up</h2>
   {% if error %}<div class="error">{{ error }}</div>{% endif %}
   <form method="POST" autocomplete="off">
+    <div class="input-wrapper">
+      <label for="first_name">First Name</label>
+      <input id="first_name" name="first_name" placeholder="First Name" required>
+    </div>
+    <div class="input-wrapper">
+      <label for="last_name">Last Name (Optional)</label>
+      <input id="last_name" name="last_name" placeholder="Last Name">
+    </div>
     <div class="input-wrapper">
       <label for="username">Username</label>
       <input id="username" name="username" placeholder="Username" required>

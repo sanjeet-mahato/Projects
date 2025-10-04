@@ -1,5 +1,6 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
 <script src="{{ url_for('static', filename='js/auth.js') }}" defer></script>
+
 <div class="auth-card">
   <h2>Login</h2>
   {% if messages %}
@@ -21,5 +22,5 @@
     <button type="submit">Login</button>
   </form>
   <a href="{{ url_for('auth.signup') }}">Don't have an account? Sign Up</a>
-  <a href="{{ url_for('auth.reset_password_email') }}" style="margin-top:8px;">Forgot/Reset Password?</a>
+  <a href="{{ url_for('auth.reset_password_route') }}" style="margin-top:8px;">Forgot/Reset Password?</a>
 </div>

@@ -1,0 +1,19 @@
+<link rel="stylesheet" href="{{ url_for('static', filename='css/auth.css') }}">
+<script src="{{ url_for('static', filename='js/auth.js') }}" defer></script>
+
+<div class="auth-card">
+  <h2>OTP Verification</h2>
+  {% if error %}<div class="error">{{ error }}</div>{% endif %}
+  {% if success %}<div class="success">{{ success }}</div>{% endif %}
+  <form method="POST" autocomplete="off">
+    <div class="input-wrapper">
+      <label for="otp">OTP</label>
+      <input id="otp" name="otp" type="text" placeholder="Enter OTP" required autofocus>
+    </div>
+    <div class="countdown" style="margin-bottom:10px;">
+      OTP will expire in <span id="resetTimer">05:00</span>
+    </div>
+    <button type="submit">Verify OTP</button>
+  </form>
+  <button type="button" id="resendOtpBtn" style="margin-top:10px;">Resend OTP</button>
+</div>
