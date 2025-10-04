@@ -113,3 +113,87 @@ def login():
 def logout():
     session.clear()
     return redirect(url_for("auth.login"))
+
+
+# --------------------------
+# Password Reset - Email Entry
+# --------------------------
+@auth_bp.route("/reset-password", methods=["GET", "POST"])
+def reset_password_email():
+    if request.method == "POST":
+        email = request.form.get("email")
+        user = User.query.filter_by(email=email).first()
+        if not user:
+            return render_template("reset_password_email.html", error="Email not registered.")
+        try:
+            generate_and_send_otp(email)
+            session["reset_email"] = email
+            session["reset_verified"] = False
+            return redirect(url_for("auth.reset_password_otp"))
+        except Exception as e:
+            return render_template("reset_password_email.html", error=f"Failed to send OTP: {str(e)}")
+    return render_template("reset_password_email.html")
+
+
+# --------------------------
+# Password Reset - OTP Verification
+# --------------------------
+@auth_bp.route("/reset-password/otp", methods=["GET", "POST"])
+def reset_password_otp():
+    email = session.get("reset_email")
+    if not email:
+        return redirect(url_for("auth.reset_password_email"))
+    if request.method == "POST":
+        otp = request.form.get("otp")
+        if not is_otp_valid(email, otp):
+            return render_template("reset_password_otp.html", error="Invalid or expired OTP.")
+        session["reset_verified"] = True
+        return redirect(url_for("auth.reset_password_new"))
+    return render_template("reset_password_otp.html")
+
+
+# --------------------------
+# Password Reset - New Password Entry
+# --------------------------
+@auth_bp.route("/reset-password/new", methods=["GET", "POST"])
+def reset_password_new():
+    email = session.get("reset_email")
+    verified = session.get("reset_verified")
+    if not email or not verified:
+        return redirect(url_for("auth.reset_password_email"))
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return redirect(url_for("auth.reset_password_email"))
+    if request.method == "POST":
+        new_password = request.form.get("new_password")
+        confirm_password = request.form.get("confirm_password")
+        if not new_password or not confirm_password:
+            return render_template("reset_password_new.html", error="Please enter and confirm your new password.")
+        if new_password != confirm_password:
+            return render_template("reset_password_new.html", error="Passwords do not match.")
+        user.password_hash = generate_password_hash(new_password)
+        db.session.commit()
+        session.pop("reset_email", None)
+        session.pop("reset_verified", None)
+        flash("Password successfully reset. Please login.", "success")
+        return redirect(url_for("auth.login"))
+    return render_template("reset_password_new.html")
+
+
+# --------------------------
+# Password Reset - Send OTP (API)
+# --------------------------
+@auth_bp.route("/send-reset-otp", methods=["POST"])
+def send_reset_otp():
+    data = request.get_json()
+    email = data.get("email")
+    if not email:
+        email = session.get("reset_email")
+    user = User.query.filter_by(email=email).first()
+    if not user:
+        return jsonify({"success": False, "message": "Email not registered."}), 400
+    try:
+        generate_and_send_otp(email)
+        return jsonify({"success": True, "message": "OTP sent to your email."})
+    except Exception as e:
+        return jsonify({"success": False, "message": f"Failed to send OTP: {str(e)}"}), 500
