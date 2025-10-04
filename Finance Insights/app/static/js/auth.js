@@ -66,20 +66,27 @@ document.addEventListener("DOMContentLoaded", () => {
   // -----------------------------
   // OTP countdown timer
   // -----------------------------
-  const timerEl = document.getElementById("timer");
-  if (timerEl) {
-    let seconds = 300; // 5 minutes
-    let interval = setInterval(() => {
-      if (seconds <= 0) {
-        clearInterval(interval);
+  let timerEl = document.getElementById("timer");
+  let timerInterval;
+  function startTimer(seconds) {
+    if (timerInterval) clearInterval(timerInterval);
+    let timeLeft = seconds;
+    function updateTimer() {
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
         timerEl.innerText = "Expired";
       } else {
-        let m = String(Math.floor(seconds / 60)).padStart(2, '0');
-        let s = String(seconds % 60).padStart(2, '0');
+        let m = String(Math.floor(timeLeft / 60)).padStart(2, '0');
+        let s = String(timeLeft % 60).padStart(2, '0');
         timerEl.innerText = `${m}:${s}`;
-        seconds--;
+        timeLeft--;
       }
-    }, 1000);
+    }
+    updateTimer();
+    timerInterval = setInterval(updateTimer, 1000);
+  }
+  if (timerEl) {
+    startTimer(300);
   }
 
   // -----------------------------
@@ -99,6 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         if (result.success) {
           resendBtn.textContent = "OTP Sent!";
+          startTimer(300); // Reset timer to 5 minutes
           setTimeout(() => {
             resendBtn.textContent = "Resend OTP";
             resendBtn.disabled = false;

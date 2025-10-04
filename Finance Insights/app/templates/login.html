@@ -2,6 +2,11 @@
 <script src="{{ url_for('static', filename='js/auth.js') }}" defer></script>
 <div class="auth-card">
   <h2>Login</h2>
+  {% if messages %}
+    {% for category, msg in messages %}
+      <div class="{{ category }}">{{ msg }}</div>
+    {% endfor %}
+  {% endif %}
   {% if error %}<div class="error">{{ error }}</div>{% endif %}
   <form method="POST" autocomplete="off">
     <div class="input-wrapper">

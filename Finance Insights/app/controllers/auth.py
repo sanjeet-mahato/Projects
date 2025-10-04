@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify, flash, get_flashed_messages
 from app.models.user import User
 from app.models.db import db
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -59,6 +59,7 @@ def verify_email():
             db.session.add(new_user)
             db.session.commit()
             session.pop("pending_email")
+            flash("Email verified successfully. Please login.", "success")
             return redirect(url_for("auth.login"))
         else:
             return render_template("verify_email.html", error="Invalid or expired OTP")
@@ -101,7 +102,8 @@ def login():
         else:
             return render_template("login.html", error="Invalid username or password")
 
-    return render_template("login.html")
+    messages = get_flashed_messages(with_categories=True)
+    return render_template("login.html", messages=messages)
 
 
 # --------------------------
