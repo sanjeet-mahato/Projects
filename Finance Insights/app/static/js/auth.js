@@ -17,6 +17,53 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // -----------------------------
+  // Form validation and UX
+  // -----------------------------
+  document.querySelectorAll("form").forEach(form => {
+    form.addEventListener("submit", e => {
+      let valid = true;
+      let errorMsg = "";
+      form.querySelectorAll("input[required]").forEach(input => {
+        if (!input.value.trim()) {
+          valid = false;
+          errorMsg = "All fields are required.";
+        }
+      });
+      if (!valid) {
+        e.preventDefault();
+        showError(form, errorMsg);
+        return false;
+      }
+      showLoading(form);
+    });
+  });
+
+  function showError(form, msg) {
+    let err = form.parentElement.querySelector(".error");
+    if (!err) {
+      err = document.createElement("div");
+      err.className = "error";
+      form.parentElement.insertBefore(err, form);
+    }
+    err.textContent = msg;
+    err.style.display = "block";
+    hideLoading(form);
+  }
+  function showLoading(form) {
+    let loading = form.parentElement.querySelector(".loading");
+    if (!loading) {
+      loading = document.createElement("div");
+      loading.className = "loading";
+      form.parentElement.insertBefore(loading, form);
+    }
+    loading.style.display = "block";
+  }
+  function hideLoading(form) {
+    let loading = form.parentElement.querySelector(".loading");
+    if (loading) loading.style.display = "none";
+  }
+
+  // -----------------------------
   // OTP countdown timer
   // -----------------------------
   const timerEl = document.getElementById("timer");
@@ -41,6 +88,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const resendBtn = document.getElementById("resendOtpBtn");
   if (resendBtn) {
     resendBtn.addEventListener("click", async () => {
+      resendBtn.disabled = true;
+      resendBtn.textContent = "Resending...";
       try {
         const response = await fetch("/resend-otp", {
           method: "POST",
@@ -49,11 +98,19 @@ document.addEventListener("DOMContentLoaded", () => {
         const result = await response.json();
 
         if (result.success) {
-          alert("OTP resent successfully! Check your email.");
+          resendBtn.textContent = "OTP Sent!";
+          setTimeout(() => {
+            resendBtn.textContent = "Resend OTP";
+            resendBtn.disabled = false;
+          }, 2000);
         } else {
+          resendBtn.textContent = "Resend OTP";
+          resendBtn.disabled = false;
           alert("Failed: " + result.message);
         }
       } catch (err) {
+        resendBtn.textContent = "Resend OTP";
+        resendBtn.disabled = false;
         alert("Error contacting server: " + err.message);
       }
     });
