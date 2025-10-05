@@ -1,0 +1,23 @@
+{
+  "header_row_index": 20,
+  "starting_row": 22,
+  "ending_row": -26,
+  "date_column": "Date",
+  "debit_column": "Withdrawal Amt.",
+  "credit_column": "Deposit Amt.",
+  "date_format": "%d/%m/%y",
+  "categories": [
+    {
+      "type": "UPI",
+      "regex": "^UPI-(.*?)-",
+      "field_name": "Narration",
+      "name": "{0}"
+    },
+    {
+      "type": "Misc.",
+      "regex": ".*",
+      "field_name": "Narration",
+      "name": "others"
+    }
+  ]
+}

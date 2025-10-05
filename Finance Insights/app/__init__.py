@@ -25,7 +25,10 @@ def create_app():
     # Register Blueprints
     from app.routes.auth_route import auth_bp
     from app.routes.dashboard_route import dashboard_bp
+    from app.routes.index_routes import index_bp
 
+    # Register blueprints
+    app.register_blueprint(index_bp)
     app.register_blueprint(auth_bp, url_prefix="/")
     app.register_blueprint(dashboard_bp, url_prefix="/dashboard")
 

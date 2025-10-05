@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Data Transformer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Excel File Transformer</h1>
+
+    <input type="file" id="fileInput" accept=".xlsx,.xls" />
+    <button id="uploadBtn">Upload File</button>
+
+    <p id="status">No file uploaded.</p>
+
+    <div class="actions">
+      <button id="dashboardBtn" disabled>View Dashboard</button>
+      <button id="chatBtn" disabled>Chat</button>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+</body>
+</html>

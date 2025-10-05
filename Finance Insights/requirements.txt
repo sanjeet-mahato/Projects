@@ -1,4 +1,8 @@
-flask
-flask_sqlalchemy
-pymysql
-cryptography
+Flask>=2.3.0
+Flask-SQLAlchemy>=3.0.0
+PyMySQL>=1.0.2
+cryptography>=41.0.0
+pandas>=2.1.0
+openpyxl>=3.1.0
+xlrd>=2.0.1
+flatten-json>=0.1.13
