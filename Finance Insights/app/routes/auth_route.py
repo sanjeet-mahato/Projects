@@ -48,7 +48,8 @@ def login():
             return render_template("login.html", error=error)
 
         session["user_id"] = user.id
-        return redirect(url_for("dashboard.dashboard"))
+        session["profile_name"] = user.profile_name
+        return redirect(url_for("index_bp.index_page"))
 
     messages = get_flashed_messages(with_categories=True)
     return render_template("login.html", messages=messages)

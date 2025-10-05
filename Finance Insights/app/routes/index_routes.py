@@ -1,13 +1,18 @@
 from flask import Blueprint, render_template, request, jsonify, session
 from app.services.transformer_service import transform_excel_to_json
+from utils.auth_decorator import login_required
 from io import BytesIO
+
 
 index_bp = Blueprint("index_bp", __name__)
 
+
 @index_bp.route("/")
 @index_bp.route("/index")
+@login_required
 def index_page():
-    return render_template("index.html")
+    profile_name = session.get("profile_name", "User")
+    return render_template("index.html", profile_name=profile_name)
 
 
 @index_bp.route("/upload", methods=["POST"])

@@ -11,7 +11,7 @@ body {
   overflow: hidden;
 }
 
-/* Subtle floating shapes for gentle accent */
+/* Floating shapes */
 body::before, body::after {
   content: '';
   position: absolute;
@@ -24,6 +24,62 @@ body::before, body::after {
 }
 body::before { top: -150px; left: -150px; }
 body::after { bottom: -150px; right: -150px; }
+
+/* Profile Avatar with name to the left */
+.profile-container {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px; /* space between name and avatar */
+  z-index: 2;
+}
+
+.profile-name {
+  font-size: 0.95rem;
+  font-weight: bold;
+  color: #2c3e50;
+  white-space: nowrap; /* keep name in single line */
+}
+
+.profile-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background-color: #5d90c7;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  user-select: none;
+}
+
+.profile-dropdown {
+  display: none;
+  position: absolute;
+  top: 58px;
+  right: 0;
+  background: #fff;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  min-width: 120px;
+  z-index: 5;
+}
+
+.dropdown-item {
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  color: #2c3e50;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #f0f4f8;
+}
 
 /* Card */
 .upload-card {
@@ -42,8 +98,6 @@ body::after { bottom: -150px; right: -150px; }
   transform: translateY(-3px);
   box-shadow: 0 12px 32px rgba(0,0,0,0.12);
 }
-
-/* Heading */
 .upload-card h1 {
   font-size: 1.8rem;
   color: #2c3e50;
@@ -56,15 +110,16 @@ body::after { bottom: -150px; right: -150px; }
   margin-bottom: 20px;
 }
 
-/* File input */
+/* File input fixes */
 .upload-card input[type="file"] {
-  width: 100%;
+  width: calc(100% - 24px);
   padding: 12px;
   margin-bottom: 15px;
   border-radius: 10px;
   border: 1.5px solid #d1dbe6;
   background: #f7f9fb;
   font-size: 0.95rem;
+  box-sizing: border-box;
 }
 
 /* Buttons */
@@ -98,15 +153,13 @@ body::after { bottom: -150px; right: -150px; }
   margin-bottom: 12px;
 }
 
-/* Actions (View Dashboard / Chat) */
+/* Actions buttons */
 .actions {
   display: flex;
   justify-content: space-between;
   gap: 8px;
 }
-.actions button {
-  flex: 1;
-}
+.actions button { flex: 1; }
 
 /* Disclaimer */
 .upload-card .disclaimer {

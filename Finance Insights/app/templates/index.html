@@ -8,6 +8,18 @@
 </head>
 <body>
 <div class="background">
+  <!-- Profile Avatar with name to the left -->
+  <div class="profile-container">
+    <div class="profile-name">{{ session['profile_name'] }}</div>
+    <div class="profile-avatar" id="profileAvatar">
+      {{ session['profile_name'][:2] | upper }}
+    </div>
+    <div class="profile-dropdown" id="profileDropdown">
+      <div class="dropdown-item" id="settings">Settings</div>
+      <div class="dropdown-item" id="logout">Logout</div>
+    </div>
+  </div>
+
   <div class="container">
     <div class="upload-card">
       <h1>Finance Insights</h1>
