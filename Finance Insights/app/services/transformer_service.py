@@ -80,10 +80,10 @@ def update_global_data(global_data: dict, parsed: dict):
     gmonth["total"] = float(gmonth.get("total", 0.0)) + amount
 
     if cat_type not in gmonth:
-        gmonth[cat_type] = {"total": amount, cat_name: amount}
+        gmonth[cat_type] = {"total": amount, "transactions": {cat_name: amount}}
     else:
         gmonth[cat_type]["total"] = float(gmonth[cat_type].get("total", 0.0)) + amount
-        gmonth[cat_type][cat_name] = float(gmonth[cat_type].get(cat_name, 0.0)) + amount
+        gmonth[cat_type]["transactions"][cat_name] = float(gmonth[cat_type]["transactions"].get(cat_name, 0.0)) + amount
 
 
 # ------------------------------
