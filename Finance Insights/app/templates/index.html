@@ -1,26 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Data Transformer</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finance Insights</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 <body>
+<div class="background">
   <div class="container">
-    <h1>Excel File Transformer</h1>
+    <div class="upload-card">
+      <h1>Finance Insights</h1>
+      <p class="subtext">Upload your bank statement to gain meaningful insights on your income and spending patterns.</p>
 
-    <input type="file" id="fileInput" accept=".xlsx,.xls" />
-    <button id="uploadBtn">Upload File</button>
+      <input type="file" id="excelFile" accept=".xlsx,.xls">
+      <button id="uploadBtn" onclick="uploadFile()">Upload</button>
 
-    <p id="status">No file uploaded.</p>
+      <div id="statusMsg"></div>
 
-    <div class="actions">
-      <button id="dashboardBtn" disabled>View Dashboard</button>
-      <button id="chatBtn" disabled>Chat</button>
+      <div class="actions">
+        <button id="viewDashboard" disabled>View Dashboard</button>
+        <button id="chatBot" disabled>Chat with Bot</button>
+      </div>
+
+      <p class="disclaimer">
+        ⚠️ We do not store your bank data. The uploaded data is held only for your session duration and is cleared on logout or session expiry.
+      </p>
     </div>
   </div>
+</div>
 
-  <script src="{{ url_for('static', filename='js/index.js') }}"></script>
+<script src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
 </html>
