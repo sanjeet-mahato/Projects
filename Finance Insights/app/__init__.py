@@ -29,12 +29,12 @@ def create_app():
 
     # Register blueprints
     app.register_blueprint(index_bp)
-    app.register_blueprint(auth_bp, url_prefix="/")
+    app.register_blueprint(auth_bp, url_prefix="/auth")
     app.register_blueprint(dashboard_bp, url_prefix="/dashboard")
 
     # Optional: add a simple health check route
     @app.route("/ping")
     def ping():
-        return "pong", 200
+        return "ping", 200
 
     return app

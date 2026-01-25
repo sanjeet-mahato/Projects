@@ -6,7 +6,8 @@ from app.services.user_service import (
     send_reset_otp,
     reset_password
 )
-from utils.email_utils import is_otp_valid, pending_otp
+from utils.email_utils import is_otp_valid, generate_and_send_otp, pending_otp
+from app.models.user import User
 
 auth_bp = Blueprint("auth", __name__)
 
@@ -49,7 +50,7 @@ def login():
 
         session["user_id"] = user.id
         session["profile_name"] = user.profile_name
-        return redirect(url_for("index_bp.index_page"))
+        return redirect(url_for("index.index_page"))
 
     messages = get_flashed_messages(with_categories=True)
     return render_template("login.html", messages=messages)
@@ -85,15 +86,10 @@ def otp():
 
 @auth_bp.route("/resend-otp", methods=["POST"])
 def resend_otp():
-    email = session.get("pending_email") or session.get("reset_email")
-    if not email:
-        return jsonify({"success": False, "message": "No pending OTP"}), 400
-
-    from utils.email_utils import generate_and_send_otp, pending_otp
-    from app.models.user import User
 
     if session.get("pending_email"):
         # Signup OTP resend
+        email = session["pending_email"]
         if email not in pending_otp:
             return jsonify({"success": False, "message": "Cannot resend OTP. No pending signup request."}), 400
         # resend OTP using stored username/password_hash/profile_name
@@ -103,11 +99,13 @@ def resend_otp():
 
     if session.get("reset_email"):
         # Reset password OTP resend
+        email = session["reset_email"]
         if not User.query.filter_by(email=email).first():
             return jsonify({"success": False, "message": "Email not registered."}), 400
         generate_and_send_otp(email)
         return jsonify({"success": True, "message": "OTP resent successfully."}), 200
 
+    return jsonify({"success": False, "message": "No pending OTP"}), 400
 
 # --------------------------
 # Reset password (email entry)

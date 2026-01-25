@@ -25,12 +25,22 @@ window.addEventListener("DOMContentLoaded", () => {
 
     // Logout with browser alert
     document.getElementById("logout").addEventListener("click", () => {
-        fetch("/logout")
+        fetch("/auth/logout")
             .then(() => {
                 alert("You have been logged out successfully.");
-                window.location.href = "/login";
+                window.location.href = "/auth/login";
             })
             .catch(err => console.error("Logout failed:", err));
+    });
+
+    // View dashboard
+    document.getElementById("viewDashboard").addEventListener("click", () => {
+        window.location.href = "/dashboard";
+    });
+
+    // Chat bot
+    document.getElementById("chatBot").addEventListener("click", () => {
+        window.location.href = "/chat";
     });
 
     // Close dropdown on outside click

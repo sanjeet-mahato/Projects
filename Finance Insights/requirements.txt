@@ -1,3 +1,4 @@
+python-dateutil
 Flask>=2.3.0
 Flask-SQLAlchemy>=3.0.0
 PyMySQL>=1.0.2
@@ -6,3 +7,12 @@ pandas>=2.1.0
 openpyxl>=3.1.0
 xlrd>=2.0.1
 flatten-json>=0.1.13
+requests
+pdfplumber>=0.10.0
+pytesseract>=0.3.10
+pdf2image>=1.16.3
+Pillow>=10.0.0
+PyPDF2>=3.0.1
+numpy>=1.26.0
+sentence-transformers>=2.2.2
+faiss-cpu>=1.7.4

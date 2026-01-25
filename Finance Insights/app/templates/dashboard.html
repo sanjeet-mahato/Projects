@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finance Dashboard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+</head>
+<body>
+<div class="container">
+  <h1>Finance Dashboard</h1>
+
+  <div class="kpi-grid">
+    <div class="kpi-card"><p>Total Debit</p><h2 id="totalDebit">₹0</h2></div>
+    <div class="kpi-card"><p>Total Credit</p><h2 id="totalCredit">₹0</h2></div>
+    <div class="kpi-card"><p>Net Balance</p><h2 id="netBalance">₹0</h2></div>
+    <div class="kpi-card"><p>Avg Monthly Expense</p><h2 id="avgExpense">₹0</h2></div>
+  </div>
+
+  <div class="chart-row">
+    <div class="chart-card"><canvas id="monthlyBar"></canvas></div>
+    <div class="chart-card"><canvas id="expenseLine"></canvas></div>
+  </div>
+
+  <div class="bubble-pie-row">
+    <div class="bubble-card">
+      <ul id="topExpenseList"></ul>
+    </div>
+    <div class="pie-card"><canvas id="expensePie"></canvas></div>
+    <div class="pie-card"><canvas id="incomePie"></canvas></div>
+  </div>
+</div>
+
+<script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+</html>
