@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify, flash, get_flashed_messages
-from app.services.user_service import (
+from app.models.user_service import (
     prepare_user_signup,
     verify_email_otp,
     login_user,
