@@ -16,3 +16,5 @@ PyPDF2>=3.0.1
 numpy>=1.26.0
 sentence-transformers>=2.2.2
 faiss-cpu>=1.7.4
+Flask-Session>=0.5.0
+redis>=4.0.0

@@ -3,15 +3,25 @@ import numpy as np
 import re
 from itertools import permutations
 from dateutil import parser
+from io import BytesIO
 
 
 class BankStatementParser:
 
-    def __init__(self, excel_path: str):
+    def __init__(self, excel_path: str = None, file_stream: BytesIO = None):
+        if excel_path is None and file_stream is None:
+            raise ValueError("Either excel_path or file_stream must be provided")
+        if excel_path is not None and file_stream is not None:
+            raise ValueError("Only one of excel_path or file_stream should be provided")
+
         self.excel_path = excel_path
+        self.file_stream = file_stream
 
         # Raw dataframe (everything)
-        self.df = pd.read_excel(excel_path, header=None)
+        if excel_path is not None:
+            self.df = pd.read_excel(excel_path, header=None)
+        else:
+            self.df = pd.read_excel(file_stream, header=None)
 
         # Numeric-only version
         self.df_num = self.df.apply(pd.to_numeric, errors="coerce")
