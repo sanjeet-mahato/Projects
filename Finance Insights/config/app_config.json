@@ -1,5 +1,0 @@
-{
-  "secret_key": "super_secret_dev_key",
-  "session_type": "filesystem",
-  "session_permanent": false
-}
