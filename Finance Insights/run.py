@@ -1,10 +1,11 @@
-from app import create_app
-from app.db import db
+import uvicorn
+from app.services.apploadconfig import config
 
-app = create_app()
-
-with app.app_context():
-    db.create_all()  # ensure tables exist
 
 if __name__ == "__main__":
-    app.run(debug=True, port="5004")
+    uvicorn.run(
+        "app.main:app",
+        host=config["server"]["host"],
+        port=config["server"]["port"],
+        reload=config["server"]["reload"],
+    )
