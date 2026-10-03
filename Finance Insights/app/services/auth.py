@@ -321,3 +321,57 @@ def delete_session(session_id: str) -> None:
     redis.delete(
         f"session:{session_id}"
     )
+
+
+def delete_user_sessions(username: str) -> None:
+    for session_key in redis.scan("session:*"):
+        session_username = redis.get(session_key)
+
+        if session_username == username:
+            redis.delete(session_key)
+
+
+def reset_password(
+    email: str,
+    new_password: str,
+    reset_token: str,
+) -> None:
+    token_email = get_otp_token_email(
+        reset_token,
+        "password_reset",
+    )
+
+    if not token_email:
+        raise InvalidVerificationToken(
+            "Invalid or expired password reset token."
+        )
+
+    if token_email != email:
+        raise InvalidVerificationToken(
+            "Email does not match the verified email."
+        )
+
+    with SessionLocal() as db:
+        user = db.scalar(
+            select(User).where(User.email == email)
+        )
+
+        if not user:
+            raise InvalidVerificationToken(
+                "Invalid password reset request."
+            )
+
+        user.password_hash = password_hasher.hash(
+            new_password
+        )
+
+        db.commit()
+
+        username = user.username
+
+    delete_otp_token(
+        reset_token,
+        "password_reset",
+    )
+
+    delete_user_sessions(username)

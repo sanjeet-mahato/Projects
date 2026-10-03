@@ -40,6 +40,14 @@ class OtpVerificationResponse(BaseModel):
     token: str | None = None
 
 
+class ResetPasswordRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid")
+
+    email: str
+    new_password: str
+    reset_token: str
+
+
 class AvailabilityResponse(BaseModel):
     model_config = ConfigDict(extra="forbid")
 

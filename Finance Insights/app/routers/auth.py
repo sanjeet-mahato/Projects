@@ -14,6 +14,7 @@ from app.schemas.auth import (
     LoginRequest,
     OtpVerificationRequest,
     OtpVerificationResponse,
+    ResetPasswordRequest,
     SignupRequest,
     UserResponse,
 )
@@ -24,6 +25,7 @@ from app.services.auth import (
     get_authenticated_user,
     is_email_available,
     is_username_available,
+    reset_password,
     send_email_verification_otp,
     send_password_reset_otp,
     signup_user,
@@ -218,6 +220,31 @@ async def verify_password_reset(
         email=payload.email,
         otp=payload.otp,
     )
+
+
+@router.post("/reset-password")
+async def reset_user_password(
+    payload: ResetPasswordRequest,
+    request: Request,
+):
+    validate_content_type(request)
+
+    try:
+        reset_password(
+            email=payload.email,
+            new_password=payload.new_password,
+            reset_token=payload.reset_token,
+        )
+
+    except InvalidVerificationToken as exc:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail=str(exc),
+        )
+
+    return {
+        "message": "Password reset successfully. Please login again."
+    }
 
 
 # ============================================================================
