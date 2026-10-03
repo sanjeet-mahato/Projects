@@ -4,3 +4,4 @@ python-multipart
 sqlalchemy
 pymysql
 argon2-cffi
+redis

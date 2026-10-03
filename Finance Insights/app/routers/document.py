@@ -1,7 +1,8 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, File, Request, UploadFile
 
-from app.schemas.document import DocumentUpload
-from app.services.validator import ValidatedPayload
+from app.models.user import User
+from app.services.auth import get_authenticated_user
+from app.services.validator import validate_content_type
 
 
 router = APIRouter(
@@ -12,16 +13,17 @@ router = APIRouter(
 
 @router.post("/upload")
 async def upload_document(
-    payload: DocumentUpload = Depends(
-        ValidatedPayload(
-            DocumentUpload,
-            content_type="multipart/form-data",
-        )
-    ),
+    request: Request,
+    file: UploadFile = File(...),
+    user: User = Depends(get_authenticated_user),
 ):
-    file = payload.file
+    validate_content_type(
+        request,
+        "multipart/form-data",
+    )
 
     return {
+        "username": user.username,
         "filename": file.filename,
         "content_type": file.content_type,
     }

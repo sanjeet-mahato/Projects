@@ -59,6 +59,3 @@ class EmailService:
             raise Exception(
                 f"Failed to send email: {exc}"
             ) from exc
-
-
-email_service = EmailService()

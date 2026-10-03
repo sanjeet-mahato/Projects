@@ -15,7 +15,11 @@ DATABASE_URL = (
 
 
 engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(bind=engine)
+
+SessionLocal = sessionmaker(
+    bind=engine,
+    expire_on_commit=False,
+)
 
 
 class Base(DeclarativeBase):

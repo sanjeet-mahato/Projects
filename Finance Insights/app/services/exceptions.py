@@ -4,3 +4,11 @@ class UsernameAlreadyExists(Exception):
 
 class EmailAlreadyExists(Exception):
     pass
+
+
+class InvalidVerificationToken(Exception):
+    pass
+
+
+class AuthenticationRequired(Exception):
+    pass
