@@ -1,0 +1,252 @@
+/* ============================================================
+   Finance Insights - Common Styles
+   ============================================================ */
+
+:root {
+    --primary: #5d90c7;
+    --primary-dark: #4b7ab8;
+    --primary-light: #e8f1fb;
+
+    --text-primary: #26384a;
+    --text-secondary: #64748b;
+    --text-muted: #94a3b8;
+
+    --border: #d9e3ee;
+    --input-bg: rgba(248, 250, 252, 0.9);
+
+    --success: #5eaa78;
+    --error: #d96c6c;
+
+    --white: #ffffff;
+
+    --shadow-sm:
+        0 4px 14px rgba(42, 70, 100, 0.06);
+
+    --shadow-md:
+        0 12px 35px rgba(42, 70, 100, 0.10);
+
+    --shadow-lg:
+        0 20px 55px rgba(42, 70, 100, 0.14);
+
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+}
+
+
+/* ============================================================
+   Reset
+   ============================================================ */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+
+    font-family:
+        'Segoe UI',
+        'Poppins',
+        -apple-system,
+        BlinkMacSystemFont,
+        sans-serif;
+
+    color: var(--text-primary);
+
+    -webkit-font-smoothing: antialiased;
+}
+
+
+/* ============================================================
+   Authentication Background
+   ============================================================ */
+
+.auth-page {
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    position: relative;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
+    background:
+        radial-gradient(
+            circle at 10% 15%,
+            rgba(93, 144, 199, 0.18),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 90% 85%,
+            rgba(124, 171, 216, 0.16),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #eaf2fc 0%,
+            #dce9f7 45%,
+            #f5f8fb 100%
+        );
+}
+
+
+/* ============================================================
+   Decorative Background Shapes
+   ============================================================ */
+
+.auth-page::before,
+.auth-page::after {
+    content: '';
+
+    position: absolute;
+
+    border-radius: 50%;
+
+    pointer-events: none;
+
+    filter: blur(5px);
+}
+
+.auth-page::before {
+    width: 420px;
+    height: 420px;
+
+    top: -210px;
+    left: -180px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(93, 144, 199, 0.20) 0%,
+            rgba(93, 144, 199, 0) 70%
+        );
+}
+
+.auth-page::after {
+    width: 500px;
+    height: 500px;
+
+    right: -240px;
+    bottom: -260px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(120, 164, 207, 0.18) 0%,
+            rgba(120, 164, 207, 0) 70%
+        );
+}
+
+
+/* ============================================================
+   Common Messages
+   ============================================================ */
+
+.error,
+.success {
+    width: 100%;
+
+    padding: 11px 14px;
+
+    margin-bottom: 18px;
+
+    border-radius: var(--radius-sm);
+
+    font-size: 0.9rem;
+    font-weight: 500;
+
+    line-height: 1.4;
+
+    animation: messageFadeIn 0.25s ease;
+}
+
+.error {
+    color: #9f3f3f;
+
+    background: rgba(217, 108, 108, 0.12);
+
+    border: 1px solid rgba(217, 108, 108, 0.22);
+}
+
+.success {
+    color: #397653;
+
+    background: rgba(94, 170, 120, 0.12);
+
+    border: 1px solid rgba(94, 170, 120, 0.22);
+}
+
+@keyframes messageFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ============================================================
+   Loading Spinner
+   ============================================================ */
+
+.loading {
+    display: none;
+
+    width: 30px;
+    height: 30px;
+
+    margin: 0 auto 18px;
+
+    border: 3px solid rgba(93, 144, 199, 0.20);
+
+    border-top-color: var(--primary);
+
+    border-radius: 50%;
+
+    animation: spin 0.8s linear infinite;
+}
+
+.loading.visible {
+    display: block;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+
+/* ============================================================
+   Buttons
+   ============================================================ */
+
+button {
+    font-family: inherit;
+}
+
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 500px) {
+
+    .auth-page {
+        padding: 20px;
+    }
+
+}

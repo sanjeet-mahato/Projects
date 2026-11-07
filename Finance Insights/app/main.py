@@ -1,8 +1,10 @@
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
+from fastapi.staticfiles import StaticFiles
 
 from app.routers.auth import router as auth_router
 from app.routers.document import router as document_router
+from app.routers.pages import router as pages_router
 from app.services.apploadconfig import config
 from app.services.exceptions import AuthenticationRequired
 
@@ -26,5 +28,19 @@ async def authentication_required_handler(
     )
 
 
+app.mount(
+    "/css",
+    StaticFiles(directory="frontend/css"),
+    name="css",
+)
+
+app.mount(
+    "/js",
+    StaticFiles(directory="frontend/js"),
+    name="js",
+)
+
+
 app.include_router(auth_router)
 app.include_router(document_router)
+app.include_router(pages_router)

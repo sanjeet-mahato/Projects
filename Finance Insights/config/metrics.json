@@ -1,0 +1,34 @@
+{
+  "data_type_distribution": {
+    "description": "Distribution of configured datatypes across all column values",
+    "weight": 1.0
+  },
+  "average_length": {
+    "description": "Average length of non-empty cell values after trimming whitespace",
+    "weight": 0.5
+  },
+  "min_length": {
+    "description": "Minimum length of non-empty cell values after trimming whitespace",
+    "weight": 0.2
+  },
+  "max_length": {
+    "description": "Maximum length of non-empty cell values after trimming whitespace",
+    "weight": 0.2
+  },
+  "unique_ratio": {
+    "description": "Ratio of unique non-empty values to total non-empty values",
+    "weight": 0.5
+  },
+  "character_set": {
+    "description": "Presence of lowercase, uppercase, digits, special characters, whitespace, and other character categories",
+    "weight": 0.5
+  },
+  "average_numeric_ratio": {
+    "description": "Average numeric-character ratio across all non-empty cells",
+    "weight": 0.4
+  },
+  "empty_ratio": {
+    "description": "Ratio of empty or whitespace-only cells to total column values",
+    "weight": 0.2
+  }
+}

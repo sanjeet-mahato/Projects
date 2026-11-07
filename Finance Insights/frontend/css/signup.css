@@ -1,0 +1,247 @@
+/* ============================================================
+   Finance Insights - Signup
+   ============================================================ */
+
+.signup-card {
+    width: 700px;
+    max-width: 100%;
+}
+
+
+/* ============================================================
+   Shared Validation / Status Message
+   ============================================================ */
+
+.availability-message {
+    min-height: 36px;
+
+    margin-top: -18px;
+    margin-bottom: 12px;
+
+    padding: 4px 10px;
+
+    font-size: 0.85rem;
+    font-weight: 500;
+    line-height: 28px;
+
+    text-align: center;
+}
+
+.availability-message.success {
+    color: var(--success);
+}
+
+.availability-message.error {
+    color: var(--error);
+}
+
+
+/* ============================================================
+   Signup Grid
+   ============================================================ */
+
+.signup-grid {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, minmax(0, 1fr));
+
+    column-gap: 22px;
+
+    row-gap: 0;
+}
+
+.signup-grid .input-wrapper {
+    margin-bottom: 18px;
+}
+
+
+/* ============================================================
+   Validation State
+   ============================================================ */
+
+.input-wrapper input.validation-success {
+    background: rgba(94, 170, 120, 0.08);
+
+    border-color: var(--success);
+
+    box-shadow:
+        0 0 0 2px rgba(94, 170, 120, 0.08);
+}
+
+.input-wrapper input.validation-error {
+    background: rgba(217, 108, 108, 0.08);
+
+    border-color: var(--error);
+
+    box-shadow:
+        0 0 0 2px rgba(217, 108, 108, 0.08);
+}
+
+
+/* ============================================================
+   OTP
+   ============================================================ */
+
+.otp-row {
+    display: flex;
+
+    gap: 8px;
+
+    width: 100%;
+}
+
+.otp-row input {
+    flex: 1 1 auto;
+
+    min-width: 0;
+
+    letter-spacing: 0.08em;
+}
+
+.otp-row button {
+    flex: 0 0 auto;
+
+    height: 48px;
+
+    padding: 0 10px;
+
+    color: var(--primary);
+
+    background: var(--primary-light);
+
+    border: 1px solid rgba(93, 144, 199, 0.20);
+
+    border-radius: var(--radius-md);
+
+    font-family: inherit;
+
+    font-size: 0.80rem;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease;
+}
+
+
+/* ============================================================
+   OTP Button Widths
+   ============================================================ */
+
+#send-otp-button {
+    width: 88px;
+}
+
+#verify-otp-button {
+    width: 100px;
+}
+
+
+/* ============================================================
+   OTP Button Hover
+   ============================================================ */
+
+.otp-row button:hover:not(:disabled) {
+    color: var(--primary-dark);
+
+    background: #dceafb;
+
+    border-color: rgba(93, 144, 199, 0.30);
+}
+
+
+/* ============================================================
+   OTP Button Disabled
+   ============================================================ */
+
+.otp-row button:disabled {
+    opacity: 0.45;
+
+    cursor: not-allowed;
+}
+
+
+/* ============================================================
+   OTP Verified
+   ============================================================ */
+
+.otp-row button.verified {
+    color: var(--success);
+
+    background: rgba(94, 170, 120, 0.10);
+
+    border-color: rgba(94, 170, 120, 0.25);
+
+    opacity: 1;
+
+    cursor: default;
+}
+
+
+/* ============================================================
+   Signup Button
+   ============================================================ */
+
+.signup-card form > #signup-button {
+    margin-top: 2px;
+}
+
+.signup-card form > #signup-button:disabled {
+    opacity: 0.55;
+
+    cursor: not-allowed;
+}
+
+
+/* ============================================================
+   Responsive
+   ============================================================ */
+
+@media (max-width: 760px) {
+
+    .signup-card {
+        width: 100%;
+    }
+
+    .otp-row {
+        flex-wrap: wrap;
+    }
+
+    .otp-row input {
+        flex-basis: 100%;
+    }
+
+    .otp-row button {
+        flex: 1;
+    }
+
+}
+
+
+@media (max-width: 650px) {
+
+    .signup-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 500px) {
+
+    .otp-row {
+        gap: 8px;
+    }
+
+    .otp-row button {
+        padding: 0 10px;
+    }
+
+}

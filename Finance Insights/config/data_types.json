@@ -1,0 +1,110 @@
+[
+  {
+    "name": "empty",
+    "description": "Empty or whitespace-only cell",
+    "weight": 0.2,
+    "pattern": "^\\s*$"
+  },
+  {
+    "name": "date_datetime_iso",
+    "description": "ISO date and time, e.g. 2026-11-12 14:30:00",
+    "weight": 1.0,
+    "pattern": "^\\d{4}-\\d{2}-\\d{2}[T ]\\d{2}:\\d{2}(:\\d{2})?(\\.\\d+)?(Z|[+-]\\d{2}:?\\d{2})?$"
+  },
+  {
+    "name": "date_datetime_slash",
+    "description": "Slash-separated date and time, e.g. 12/11/2026 14:30",
+    "weight": 1.0,
+    "pattern": "^\\d{1,2}/\\d{1,2}/\\d{2,4}\\s+\\d{1,2}:\\d{2}(:\\d{2})?$"
+  },
+  {
+    "name": "date_datetime_dash",
+    "description": "Dash-separated date and time, e.g. 12-11-2026 14:30",
+    "weight": 1.0,
+    "pattern": "^\\d{1,2}-\\d{1,2}-\\d{2,4}\\s+\\d{1,2}:\\d{2}(:\\d{2})?$"
+  },
+  {
+    "name": "date_iso",
+    "description": "ISO date, e.g. 2026-11-12",
+    "weight": 1.0,
+    "pattern": "^\\d{4}-\\d{2}-\\d{2}$"
+  },
+  {
+    "name": "date_slash_short",
+    "description": "Slash-separated date with two-digit year, e.g. 12/11/26",
+    "weight": 0.95,
+    "pattern": "^\\d{1,2}/\\d{1,2}/\\d{2}$"
+  },
+  {
+    "name": "date_slash_long",
+    "description": "Slash-separated date with four-digit year, e.g. 12/11/2026",
+    "weight": 0.95,
+    "pattern": "^\\d{1,2}/\\d{1,2}/\\d{4}$"
+  },
+  {
+    "name": "date_dot_short",
+    "description": "Dot-separated date with two-digit year, e.g. 12.11.26",
+    "weight": 0.95,
+    "pattern": "^\\d{1,2}\\.\\d{1,2}\\.\\d{2}$"
+  },
+  {
+    "name": "date_dot_long",
+    "description": "Dot-separated date with four-digit year, e.g. 12.11.2026",
+    "weight": 0.95,
+    "pattern": "^\\d{1,2}\\.\\d{1,2}\\.\\d{4}$"
+  },
+  {
+    "name": "date_dash_short",
+    "description": "Dash-separated date with two-digit year, e.g. 12-11-26",
+    "weight": 0.95,
+    "pattern": "^\\d{1,2}-\\d{1,2}-\\d{2}$"
+  },
+  {
+    "name": "date_dash_long",
+    "description": "Dash-separated date with four-digit year, e.g. 12-11-2026",
+    "weight": 0.95,
+    "pattern": "^\\d{1,2}-\\d{1,2}-\\d{4}$"
+  },
+  {
+    "name": "date_text_abbreviated",
+    "description": "Date with abbreviated month name, e.g. 12 Nov, 2026 or Nov 12, 2026",
+    "weight": 1.0,
+    "pattern": "^(\\d{1,2}\\s+[A-Za-z]{3},?\\s+\\d{4}|[A-Za-z]{3}\\s+\\d{1,2},?\\s+\\d{4})$"
+  },
+  {
+    "name": "date_text_full",
+    "description": "Date with full month name, e.g. 12 November, 2026 or November 12, 2026",
+    "weight": 1.0,
+    "pattern": "^(\\d{1,2}\\s+[A-Za-z]{4,},?\\s+\\d{4}|[A-Za-z]{4,}\\s+\\d{1,2},?\\s+\\d{4})$"
+  },
+  {
+    "name": "date_month_year",
+    "description": "Month and year, e.g. Nov 2026, November 2026, or 11/2026",
+    "weight": 0.85,
+    "pattern": "^([A-Za-z]{3,}\\s+\\d{4}|\\d{1,2}/\\d{4})$"
+  },
+  {
+    "name": "integer",
+    "description": "Whole number, optionally with sign",
+    "weight": 0.6,
+    "pattern": "^[+-]?\\d+$"
+  },
+  {
+    "name": "float",
+    "description": "Decimal number, optionally with sign",
+    "weight": 0.7,
+    "pattern": "^[+-]?\\d+\\.\\d+$"
+  },
+  {
+    "name": "amount",
+    "description": "Numeric amount with optional sign, comma grouping, and up to two decimal places, e.g. 1200, 1,200.00, or 12,00,000.50",
+    "weight": 1.0,
+    "pattern": "^[+-]?(?:\\d+|\\d{1,3}(?:,\\d{2,3})+)(?:\\.\\d{1,2})?$"
+  },
+  {
+    "name": "string",
+    "description": "Fallback for values not matching another datatype",
+    "weight": 0.3,
+    "pattern": "^.*$"
+  }
+]

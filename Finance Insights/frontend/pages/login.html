@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Login - Finance Insights</title>
+
+
+    <link
+        rel="stylesheet"
+        href="/css/common.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/css/auth.css"
+    >
+
+
+    <script
+        src="/js/api.js"
+        defer
+    ></script>
+
+    <script
+        src="/js/auth.js"
+        defer
+    ></script>
+
+</head>
+
+
+<body class="auth-page">
+
+    <div class="auth-card">
+
+
+        <div class="auth-brand">
+            Finance Insights
+        </div>
+
+
+        <p class="auth-subtitle">
+            Sign in to continue to your financial insights
+        </p>
+
+
+        <div
+            id="message"
+            class="error"
+            hidden
+        ></div>
+
+
+        <div
+            id="loading"
+            class="loading"
+        ></div>
+
+
+        <form
+            id="login-form"
+            autocomplete="off"
+        >
+
+
+            <div class="input-wrapper">
+
+                <label for="username-or-email">
+                    Username or Email
+                </label>
+
+                <input
+                    id="username-or-email"
+                    name="username_or_email"
+                    type="text"
+                    placeholder="Enter your username or email"
+                    required
+                    autofocus
+                >
+
+            </div>
+
+
+            <div class="input-wrapper password-wrapper">
+
+                <label for="password">
+                    Password
+                </label>
+
+                <input
+                    id="password"
+                    name="password"
+                    type="password"
+                    placeholder="Enter your password"
+                    required
+                >
+
+                <button
+                    type="button"
+                    class="toggle-password"
+                    data-target="password"
+                >
+                    Show
+                </button>
+
+            </div>
+
+
+            <button
+                id="login-button"
+                type="submit"
+            >
+                Login
+            </button>
+
+
+        </form>
+
+
+        <div class="auth-links">
+
+            <a href="/signup">
+                Don't have an account? Sign Up
+            </a>
+
+            <a href="/forgot-password">
+                Forgot/Reset Password?
+            </a>
+
+        </div>
+
+
+    </div>
+
+
+    <script>
+
+        const loginForm =
+            document.getElementById("login-form");
+
+        const loginButton =
+            document.getElementById("login-button");
+
+        const message =
+            document.getElementById("message");
+
+        const loading =
+            document.getElementById("loading");
+
+
+        function showMessage(
+            text,
+            type = "error"
+        ) {
+            message.textContent = text;
+
+            message.className = type;
+
+            message.hidden = false;
+        }
+
+
+        function hideMessage() {
+            message.hidden = true;
+        }
+
+
+        function setLoading(
+            isLoading
+        ) {
+            loading.classList.toggle(
+                "visible",
+                isLoading
+            );
+
+            loginButton.disabled =
+                isLoading;
+        }
+
+
+        document
+            .querySelectorAll(".toggle-password")
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        const input =
+                            document.getElementById(
+                                button.dataset.target
+                            );
+
+
+                        if (
+                            input.type === "password"
+                        ) {
+
+                            input.type = "text";
+
+                            button.textContent =
+                                "Hide";
+
+                        } else {
+
+                            input.type = "password";
+
+                            button.textContent =
+                                "Show";
+
+                        }
+
+                    }
+                );
+
+            });
+
+
+        loginForm.addEventListener(
+            "submit",
+            async event => {
+
+                event.preventDefault();
+
+                hideMessage();
+
+                setLoading(true);
+
+
+                const usernameOrEmail =
+                    document
+                        .getElementById(
+                            "username-or-email"
+                        )
+                        .value
+                        .trim();
+
+
+                const password =
+                    document
+                        .getElementById("password")
+                        .value;
+
+
+                try {
+
+                    await login(
+                        usernameOrEmail,
+                        password
+                    );
+
+
+                    window.location.href =
+                        "/dashboard";
+
+
+                } catch (error) {
+
+                    showMessage(
+                        error.message
+                    );
+
+
+                } finally {
+
+                    setLoading(false);
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>

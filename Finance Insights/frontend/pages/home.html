@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Home - Finance Insights</title>
+
+
+    <link
+        rel="stylesheet"
+        href="/css/common.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/css/home.css"
+    >
+
+
+    <script
+        src="/js/api.js"
+        defer
+    ></script>
+
+    <script
+        src="/js/auth.js"
+        defer
+    ></script>
+
+    <script
+        src="/js/home.js"
+        defer
+    ></script>
+
+</head>
+
+
+<body class="home-page">
+
+
+    <!-- =========================================================
+         BACKGROUND
+         ========================================================= -->
+
+    <div class="home-background">
+
+        <div class="background-orb background-orb-one"></div>
+
+        <div class="background-orb background-orb-two"></div>
+
+        <div class="background-orb background-orb-three"></div>
+
+    </div>
+
+
+    <!-- =========================================================
+         HEADER
+         ========================================================= -->
+
+    <header class="home-header">
+
+        <div class="home-brand">
+            Finance Insights
+        </div>
+
+
+        <div class="home-header-actions">
+
+            <div class="user-menu">
+
+                <button
+                    id="user-button"
+                    class="user-button"
+                    type="button"
+                >
+
+                    <span
+                        id="user-avatar"
+                        class="user-avatar"
+                    >
+                        S
+                    </span>
+
+
+                    <span
+                        id="user-name"
+                        class="user-name"
+                    >
+                        Sanjeet
+                    </span>
+
+
+                    <span class="user-arrow">
+                        ▾
+                    </span>
+
+                </button>
+
+
+                <div
+                    id="user-dropdown"
+                    class="user-dropdown"
+                    hidden
+                >
+
+                    <div
+                        id="user-dropdown-name"
+                        class="user-dropdown-name"
+                    >
+                        Sanjeet
+                    </div>
+
+
+                    <div class="user-dropdown-divider"></div>
+
+
+                    <button
+                        id="logout-button"
+                        type="button"
+                    >
+                        Logout
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================================
+         MAIN CONTENT
+         ========================================================= -->
+
+    <main class="home-content">
+
+        <section class="hero-section">
+
+
+            <!-- =================================================
+                 HERO
+                 ================================================= -->
+
+            <div class="hero-content">
+
+                <div class="hero-eyebrow">
+                    YOUR FINANCIAL SPACE
+                </div>
+
+
+                <h1>
+                    Understand your finances.
+                    <span>Simply.</span>
+                </h1>
+
+
+                <p>
+                    Bring your financial documents together,
+                    organize your transactions, and discover
+                    meaningful insights.
+                </p>
+
+            </div>
+
+
+            <!-- =================================================
+                 NAVIGATION CARDS
+                 ================================================= -->
+
+            <div class="home-navigation">
+
+
+                <!-- Documents -->
+
+                <button
+                    id="documents-card"
+                    class="navigation-card"
+                    type="button"
+                >
+
+                    <div class="navigation-icon">
+                        📄
+                    </div>
+
+
+                    <div class="navigation-text">
+
+                        <h2>
+                            Documents
+                        </h2>
+
+                        <p>
+                            Upload, manage and explore
+                            your financial documents.
+                        </p>
+
+                    </div>
+
+
+                    <span class="navigation-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+                <!-- Merchants & Categories -->
+
+                <button
+                    id="merchants-card"
+                    class="navigation-card"
+                    type="button"
+                >
+
+                    <div class="navigation-icon">
+                        🏷
+                    </div>
+
+
+                    <div class="navigation-text">
+
+                        <h2>
+                            Merchants & Categories
+                        </h2>
+
+                        <p>
+                            Review merchants and organize
+                            your transactions.
+                        </p>
+
+                    </div>
+
+
+                    <span class="navigation-arrow">
+                        →
+                    </span>
+
+                </button>
+
+
+                <!-- Insights -->
+
+                <button
+                    id="insights-card"
+                    class="navigation-card"
+                    type="button"
+                >
+
+                    <div class="navigation-icon">
+                        📊
+                    </div>
+
+
+                    <div class="navigation-text">
+
+                        <h2>
+                            Insights
+                        </h2>
+
+                        <p>
+                            Explore your spending and
+                            financial patterns.
+                        </p>
+
+                    </div>
+
+
+                    <span class="navigation-arrow">
+                        →
+                    </span>
+
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================================================
+         AI CHATBOT
+         ========================================================= -->
+
+    <div
+        id="ai-chatbot"
+        class="ai-chatbot"
+    >
+
+        <button
+            id="ai-chatbot-button"
+            class="ai-chatbot-button"
+            type="button"
+            aria-expanded="false"
+            aria-controls="ai-chatbot-panel"
+        >
+
+            <span class="ai-chatbot-icon">
+                ✦
+            </span>
+
+
+            <span class="ai-chatbot-content">
+
+                <span class="ai-chatbot-title">
+                    AI Assistant
+                </span>
+
+                <span class="ai-chatbot-description">
+                    Ask about your finances
+                </span>
+
+            </span>
+
+
+            <span class="ai-chatbot-arrow">
+                ↑
+            </span>
+
+        </button>
+
+
+        <div
+            id="ai-chatbot-panel"
+            class="ai-chatbot-panel"
+            hidden
+        >
+
+            <div class="ai-chatbot-panel-header">
+
+                <div>
+
+                    <div class="ai-chatbot-panel-title">
+                        AI Assistant
+                    </div>
+
+                    <div class="ai-chatbot-panel-status">
+                        ● Ready to help
+                    </div>
+
+                </div>
+
+
+                <button
+                    id="ai-chatbot-close"
+                    class="ai-chatbot-close"
+                    type="button"
+                    aria-label="Close AI Assistant"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <div class="ai-chatbot-panel-body">
+
+                <div class="ai-chatbot-welcome-icon">
+                    ✦
+                </div>
+
+
+                <h3>
+                    Your financial AI assistant
+                </h3>
+
+
+                <p>
+                    Ask questions about your spending,
+                    transactions, merchants, categories,
+                    and financial patterns.
+                </p>
+
+
+                <button
+                    id="open-chatbot-button"
+                    class="open-chatbot-button"
+                    type="button"
+                >
+                    Start a conversation
+                    <span>→</span>
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
