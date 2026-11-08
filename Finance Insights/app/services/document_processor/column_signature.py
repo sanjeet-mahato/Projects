@@ -1,8 +1,13 @@
+
+import logging
 import re
 import unicodedata
 from string import ascii_lowercase, ascii_uppercase, digits
 
 from app.services.apploadconfig import config
+
+
+logger = logging.getLogger(__name__)
 
 
 class ColumnSignature:
@@ -11,11 +16,13 @@ class ColumnSignature:
         self.values = values
         self._signature = None
 
+        # Load datatype and metric configurations.
         self.data_types = config["column_signature"]["data_types"]
         self.metrics = config["column_signature"]["metrics"]
 
     @property
     def signature(self):
+        # Build the signature only when it is first requested.
         if self._signature is None:
             self.build()
 
@@ -279,6 +286,7 @@ class ColumnSignature:
         if total_weight <= 0:
             raise ValueError("Datatype weights must have a positive total.")
 
+        # Calculate weighted Euclidean distance between distributions.
         distance = sum(
             data_type["weight"] * (value_a - value_b) ** 2
             for data_type, value_a, value_b in zip(
@@ -296,7 +304,7 @@ class ColumnSignature:
     # Column comparison
     # =========================================================
 
-    def compare(self, other):
+    def compare(self, other, column_index: int):
         """Return the weighted similarity between two column signatures."""
 
         if not isinstance(other, ColumnSignature):
@@ -313,6 +321,7 @@ class ColumnSignature:
         signature_a = self.signature
         signature_b = other.signature
 
+        # Calculate similarity independently for every configured metric.
         metric_similarities = {
             "data_type_distribution": self.get_data_type_similarity(
                 signature_a["data_type_distribution"],
@@ -353,4 +362,30 @@ class ColumnSignature:
             for name, metric in self.metrics.items()
         )
 
-        return weighted_similarity / total_weight
+        final_similarity = weighted_similarity / total_weight
+
+        # Log the metric comparison as one block for easier inspection.
+        logger.debug(
+            "Column comparison | Index: %s\n"
+            "  Datatype distribution : %.4f\n"
+            "  Average length        : %.4f\n"
+            "  Minimum length        : %.4f\n"
+            "  Maximum length        : %.4f\n"
+            "  Unique ratio          : %.4f\n"
+            "  Character set         : %.4f\n"
+            "  Numeric ratio         : %.4f\n"
+            "  Empty ratio           : %.4f\n"
+            "  Final similarity      : %.4f",
+            column_index,
+            metric_similarities["data_type_distribution"],
+            metric_similarities["average_length"],
+            metric_similarities["min_length"],
+            metric_similarities["max_length"],
+            metric_similarities["unique_ratio"],
+            metric_similarities["character_set"],
+            metric_similarities["average_numeric_ratio"],
+            metric_similarities["empty_ratio"],
+            final_similarity,
+        )
+
+        return final_similarity
