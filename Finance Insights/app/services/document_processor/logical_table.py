@@ -31,7 +31,7 @@ class LogicalTable:
         # Track the physical tables that contribute to this logical table.
         self._source_tables = [physical_table]
 
-        # Initialize cached properties. They are created only when accessed.
+        # Initialize cached properties.
         self._df = None
         self._signatures = None
 
@@ -66,12 +66,38 @@ class LogicalTable:
         return self._source_tables
 
     @property
-    def pages(self) -> list:
-        """Return the page numbers of all contributing physical tables."""
-        return [
-            table.page
-            for table in self._source_tables
-        ]
+    def pages(self) -> dict[str, list[int]]:
+        """Return page numbers grouped by their source PDF."""
+        pages_by_pdf = {}
+
+        for table in self._source_tables:
+            pages_by_pdf.setdefault(table.pdf_name, []).append(table.page)
+
+        return pages_by_pdf
+
+    @staticmethod
+    def _format_page_ranges(pages: list[int]) -> str:
+        """Format consecutive page numbers as ranges."""
+        ranges = []
+
+        for page in sorted(set(pages)):
+            if ranges and page == ranges[-1][1] + 1:
+                ranges[-1][1] = page
+            else:
+                ranges.append([page, page])
+
+        return ", ".join(
+            str(start) if start == end else f"{start}-{end}"
+            for start, end in ranges
+        )
+
+    @property
+    def pages_display(self) -> str:
+        """Return display-friendly page ranges grouped by source PDF."""
+        return "\n".join(
+            f"{pdf_name}: {self._format_page_ranges(pages)}"
+            for pdf_name, pages in self.pages.items()
+        )
 
     @property
     def df(self) -> pd.DataFrame:
@@ -125,11 +151,9 @@ class LogicalTable:
         if self.headers != table.headers:
             logger.warning(
                 "Cannot merge logical tables with different headers | "
-                "Existing logical table pages: %s-%s | "
-                "Current-page candidate: %s",
-                self.pages[0],
-                self.pages[-1],
-                table.pages[0],
+                "Existing sources:\n%s | Incoming sources:\n%s",
+                self.pages_display,
+                table.pages_display,
             )
             raise ValueError("Cannot merge tables with different headers.")
 
@@ -138,10 +162,9 @@ class LogicalTable:
         # Ensure every incoming row has the same number of columns.
         if any(len(row) != self.column_count for row in rows):
             logger.warning(
-                "Cannot merge rows | Logical table pages: %s-%s | "
+                "Cannot merge rows | Logical table sources:\n%s | "
                 "Expected columns: %s",
-                self.pages[0],
-                self.pages[-1],
+                self.pages_display,
                 self.column_count,
             )
             raise ValueError("Rows contain an unexpected number of columns.")
@@ -161,18 +184,18 @@ class LogicalTable:
 
     def get_similarity(self, candidate_table: LogicalTable) -> float:
         """Calculate average column-signature similarity."""
-        existing_pages = f"{self.pages[0]}-{self.pages[-1]}"
-        candidate_page = candidate_table.pages[0]
+        existing_pages = self.pages_display
+        candidate_pages = candidate_table.pages_display
 
         # Tables with different column counts cannot be considered compatible.
         if self.column_count != candidate_table.column_count:
             logger.debug(
                 "Column count mismatch | "
-                "Existing logical table pages: %s | "
-                "Current-page candidate: %s | "
+                "Existing logical table sources:\n%s | "
+                "Candidate sources:\n%s | "
                 "Existing columns: %s | Candidate columns: %s",
                 existing_pages,
-                candidate_page,
+                candidate_pages,
                 self.column_count,
                 candidate_table.column_count,
             )
@@ -184,12 +207,12 @@ class LogicalTable:
 
         logger.debug(
             "Comparing table signatures\n"
-            "  Existing logical table pages: %s\n"
-            "  Current-page candidate: %s\n"
+            "  Existing logical table sources:\n%s\n"
+            "  Candidate sources:\n%s\n"
             "  Existing headers: %s\n"
             "  Candidate headers: %s",
             existing_pages,
-            candidate_page,
+            candidate_pages,
             self.headers,
             candidate_table.headers,
         )
@@ -226,10 +249,9 @@ class LogicalTable:
         self._signatures = None
 
         logger.debug(
-            "Logical table headers updated | Pages: %s-%s | "
+            "Logical table headers updated | Sources:\n%s | "
             "Headers: %s | Header extras: %s",
-            self.pages[0],
-            self.pages[-1],
+            self.pages_display,
             self._headers,
             self._headers_extras,
         )

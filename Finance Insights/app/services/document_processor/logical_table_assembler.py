@@ -74,11 +74,10 @@ class LogicalTableAssembler:
                 for candidate in current_page_candidates:
                     logger.info(
                         "New logical table created\n"
-                        "  Pages   : %s-%s\n"
+                        "  Sources :\n%s\n"
                         "  Columns : %s\n"
                         "  Rows    : %s",
-                        candidate.pages[0],
-                        candidate.pages[-1],
+                        candidate.pages_display,
                         candidate.column_count,
                         candidate.row_count,
                     )
@@ -120,7 +119,8 @@ class LogicalTableAssembler:
             # Ignore tables without any extracted rows.
             if physical_table.row_count == 0:
                 logger.debug(
-                    "Skipping empty physical table | Page: %s",
+                    "Skipping empty physical table | PDF: %s | Page: %s",
+                    physical_table.pdf_name,
                     physical_table.page,
                 )
                 continue
@@ -130,7 +130,8 @@ class LogicalTableAssembler:
         # Report how many physical tables were found on each page.
         for page_number in sorted(page_tables):
             logger.info(
-                "Page %s | Found %s physical table(s)",
+                "PDF: %s | Page %s | Found %s physical table(s)",
+                page_tables[page_number][0].pdf_name,
                 page_number,
                 len(page_tables[page_number]),
             )
@@ -169,12 +170,11 @@ class LogicalTableAssembler:
             logger.info(
                 "Physical table merged into logical table\n"
                 "  Current page  : %s\n"
-                "  Logical table : Pages %s-%s\n"
+                "  Logical table :\n%s\n"
                 "  Rows added    : %s\n"
                 "  Total rows    : %s",
                 page_number,
-                target.pages[0],
-                target.pages[-1],
+                target.pages_display,
                 candidate.row_count,
                 target.row_count,
             )
@@ -185,11 +185,10 @@ class LogicalTableAssembler:
         for candidate in new_tables:
             logger.info(
                 "New logical table created\n"
-                "  Pages   : %s-%s\n"
+                "  Sources :\n%s\n"
                 "  Columns : %s\n"
                 "  Rows    : %s",
-                candidate.pages[0],
-                candidate.pages[-1],
+                candidate.pages_display,
                 candidate.column_count,
                 candidate.row_count,
             )
@@ -250,12 +249,11 @@ class LogicalTableAssembler:
 
             logger.debug(
                 "Accepted table match\n"
-                "  Existing logical table : Pages %s-%s\n"
-                "  Current-page candidate : Page %s\n"
+                "  Existing logical table :\n%s\n"
+                "  Current-page candidate :\n%s\n"
                 "  Similarity             : %.4f",
-                previous_tables[previous_index].pages[0],
-                previous_tables[previous_index].pages[-1],
-                current_tables[candidate_index].pages[0],
+                previous_tables[previous_index].pages_display,
+                current_tables[candidate_index].pages_display,
                 similarity,
             )
 
@@ -279,13 +277,12 @@ class LogicalTableAssembler:
         if existing_table.column_count != candidate_table.column_count:
             logger.debug(
                 "Continuation comparison skipped\n"
-                "  Existing logical table : Pages %s-%s\n"
-                "  Current-page candidate : Page %s\n"
+                "  Existing logical table :\n%s\n"
+                "  Current-page candidate :\n%s\n"
                 "  Existing columns       : %s\n"
                 "  Candidate columns      : %s",
-                existing_table.pages[0],
-                existing_table.pages[-1],
-                candidate_table.pages[0],
+                existing_table.pages_display,
+                candidate_table.pages_display,
                 existing_table.column_count,
                 candidate_table.column_count,
             )
@@ -312,14 +309,13 @@ class LogicalTableAssembler:
 
         logger.debug(
             "Continuation similarity calculated\n"
-            "  Existing logical table : Pages %s-%s\n"
-            "  Current-page candidate : Page %s\n"
+            "  Existing logical table :\n%s\n"
+            "  Current-page candidate :\n%s\n"
             "  Signature similarity   : %.4f\n"
             "  Header bonus            : %.4f\n"
             "  Final similarity        : %.4f",
-            existing_table.pages[0],
-            existing_table.pages[-1],
-            candidate_table.pages[0],
+            existing_table.pages_display,
+            candidate_table.pages_display,
             signature_similarity,
             bonus,
             similarity,
