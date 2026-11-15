@@ -7,8 +7,9 @@ logger = logging.getLogger(__name__)
 class PhysicalTable:
     """Represents a physical table extracted by Camelot."""
 
-    def __init__(self, camelot_table):
+    def __init__(self, camelot_table, pdf_name: str):
         self._table = camelot_table
+        self._pdf_name = pdf_name
         self._data_start_index = 0
         self._headers = None
         self._headers_extras = []
@@ -17,6 +18,11 @@ class PhysicalTable:
     def table(self):
         # Return the original Camelot table.
         return self._table
+
+    @property
+    def pdf_name(self):
+        """Return the name of the PDF containing this table."""
+        return self._pdf_name
 
     @property
     def cells(self):

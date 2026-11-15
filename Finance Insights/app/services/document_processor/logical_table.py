@@ -1,3 +1,4 @@
+
 from __future__ import annotations
 
 import logging
@@ -96,13 +97,48 @@ class LogicalTable:
 
         return self._signatures
 
-    def append_rows(self, rows: list[list]) -> None:
-        """Append rows after validating their column count."""
+    def contains(self, table: LogicalTable) -> bool:
+        """Check whether another table's data is present in this table."""
+
+        return any(
+            self.data[i:i + table.row_count] == table.data
+            for i in range(self.row_count - table.row_count + 1)
+        )
+
+    def find_continuation_overlap(self, table: LogicalTable) -> int:
+        """Return the largest suffix-prefix overlap for table continuation."""
+
+        for size in range(min(self.row_count, table.row_count), 0, -1):
+            if self.data[-size:] == table.data[:size]:
+                return size
+
+        return 0
+
+    def merge_table(
+        self,
+        table: LogicalTable,
+        overlap_length: int = 0,
+    ) -> None:
+        """Merge another compatible logical table."""
+
+        # Only tables with identical headers can be merged directly.
+        if self.headers != table.headers:
+            logger.warning(
+                "Cannot merge logical tables with different headers | "
+                "Existing logical table pages: %s-%s | "
+                "Current-page candidate: %s",
+                self.pages[0],
+                self.pages[-1],
+                table.pages[0],
+            )
+            raise ValueError("Cannot merge tables with different headers.")
+
+        rows = table.data[overlap_length:]
 
         # Ensure every incoming row has the same number of columns.
         if any(len(row) != self.column_count for row in rows):
             logger.warning(
-                "Cannot append rows | Logical table pages: %s-%s | "
+                "Cannot merge rows | Logical table pages: %s-%s | "
                 "Expected columns: %s",
                 self.pages[0],
                 self.pages[-1],
@@ -110,37 +146,21 @@ class LogicalTable:
             )
             raise ValueError("Rows contain an unexpected number of columns.")
 
-        # Copy the incoming rows to avoid sharing mutable row references.
+        # Append the incoming data and track its contributing physical tables.
         self._data.extend(row.copy() for row in rows)
+        self._source_tables.extend(table.source_tables)
+
+        # Merge additional headers while preserving order and removing duplicates.
+        self._headers_extras = list(dict.fromkeys(
+            self._headers_extras + table.headers_extras
+        ))
 
         # Invalidate cached properties because the underlying data has changed.
         self._df = None
         self._signatures = None
 
-    def append_table(self, table: LogicalTable) -> None:
-        """Append another compatible logical table."""
-
-        # Only tables with identical headers can be appended directly.
-        if self.headers != table.headers:
-            logger.warning(
-                "Cannot append logical tables with different headers | "
-                "Existing logical table pages: %s-%s | "
-                "Current-page candidate: %s",
-                self.pages[0],
-                self.pages[-1],
-                table.pages[0],
-            )
-            raise ValueError(
-                "Cannot append tables with different headers."
-            )
-
-        # Append the incoming data and track its contributing physical tables.
-        self.append_rows(table.data)
-        self._source_tables.extend(table.source_tables)
-
     def get_similarity(self, candidate_table: LogicalTable) -> float:
         """Calculate average column-signature similarity."""
-
         existing_pages = f"{self.pages[0]}-{self.pages[-1]}"
         candidate_page = candidate_table.pages[0]
 
